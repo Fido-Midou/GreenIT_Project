@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block title %}{{ action }} une annonce — CampusGive{% endblock %}
+
+{% block content %}
+<h1>{{ action }} une annonce</h1>
+
+{% if action == 'Modifier' %}
+  {% set action_url = url_for('annonces.modifier', annonce_id=annonce.id) %}
+{% else %}
+  {% set action_url = url_for('annonces.creer') %}
+{% endif %}
+
+<form action="{{ action_url }}" method="post" novalidate>
+  <div class="field">
+    <label for="titre">Titre</label>
+    <input type="text" id="titre" name="titre" value="{{ form.titre or '' }}" required maxlength="120">
+  </div>
+
+  <div class="field">
+    <label for="description">Description</label>
+    <textarea id="description" name="description" required maxlength="2000">{{ form.description or '' }}</textarea>
+    <span class="field-help">Décris l'objet, son fonctionnement, ses éventuels défauts.</span>
+  </div>
+
+  <div class="form-row">
+    <div class="field">
+      <label for="categorie">Catégorie</label>
+      <select id="categorie" name="categorie" required>
+        <option value="">— Sélectionner —</option>
+        {% for cat in categories %}
+          <option value="{{ cat }}" {% if cat == form.categorie %}selected{% endif %}>{{ cat|capitalize }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="etat">État</label>
+      <select id="etat" name="etat" required>
+        <option value="">— Sélectionner —</option>
+        {% for e in etats %}
+          <option value="{{ e }}" {% if e == form.etat %}selected{% endif %}>{{ e|replace('_', ' ')|capitalize }}</option>
+        {% endfor %}
+      </select>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="field">
+      <label for="type_annonce">Type</label>
+      <select id="type_annonce" name="type_annonce" required>
+        <option value="">— Sélectionner —</option>
+        {% for t in types %}
+          <option value="{{ t }}" {% if t == form.type_annonce %}selected{% endif %}>{{ 'Don' if t == 'don' else 'Échange' }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    {% if action == 'Modifier' and statuts %}
+      <div class="field">
+        <label for="statut">Statut</label>
+        <select id="statut" name="statut">
+          {% for s in statuts %}
+            <option value="{{ s }}" {% if s == form.statut %}selected{% endif %}>{{ s|capitalize }}</option>
+          {% endfor %}
+        </select>
+      </div>
+    {% endif %}
+  </div>
+
+  <div class="actions" style="justify-content: flex-start;">
+    <button type="submit" class="btn">{{ action }}</button>
+    <a href="{{ url_for('annonces.liste') }}" class="btn btn-secondary">Annuler</a>
+  </div>
+</form>
+{% endblock %}
