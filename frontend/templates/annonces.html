@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Annonces — CampusGive{% endblock %}
+
+{% block content %}
+<h1>Annonces disponibles</h1>
+
+<form class="filter-bar" action="{{ url_for('annonces.liste') }}" method="get" role="search" aria-label="Filtrer les annonces">
+  <label for="categorie">Catégorie&nbsp;:</label>
+  <select id="categorie" name="categorie">
+    <option value="">Toutes</option>
+    {% for cat in categories %}
+      <option value="{{ cat }}" {% if cat == categorie_active %}selected{% endif %}>{{ cat|capitalize }}</option>
+    {% endfor %}
+  </select>
+  <button type="submit" class="btn btn-small">Appliquer</button>
+  {% if categorie_active %}
+    <a href="{{ url_for('annonces.liste') }}" class="btn btn-small btn-secondary">Réinitialiser</a>
+  {% endif %}
+</form>
+
+{% if annonces %}
+  <div class="annonce-list">
+    {% for a in annonces %}
+      <article class="annonce-card">
+        <h3><a href="{{ url_for('annonces.detail', annonce_id=a.id) }}">{{ a.titre }}</a></h3>
+        <div class="tag-row">
+          <span class="tag tag-{{ a.type_annonce }}">{{ 'Don' if a.type_annonce == 'don' else 'Échange' }}</span>
+          <span class="tag">{{ a.categorie|capitalize }}</span>
+          <span class="tag">État&nbsp;: {{ a.etat|replace('_', ' ') }}</span>
+        </div>
+        <p class="meta">
+          Par {{ a.auteur.prenom }} {{ a.auteur.nom[0] }}. — {{ a.auteur.campus }} — {{ a.date_publication.strftime('%d/%m/%Y') }}
+        </p>
+      </article>
+    {% endfor %}
+  </div>
+
+  {% include "_pagination.html" %}
+{% else %}
+  <p>Aucune annonce ne correspond à ce filtre pour le moment.</p>
+  {% if current_user %}
+    <p><a href="{{ url_for('annonces.creer') }}" class="btn">Déposer la première</a></p>
+  {% endif %}
+{% endif %}
+{% endblock %}

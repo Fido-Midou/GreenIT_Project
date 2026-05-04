@@ -18,7 +18,7 @@ from flask import (
     current_app,
 )
 from sqlalchemy import desc
-from .models import db, Annonce, Utilisateur, CATEGORIES, ETATS, TYPES, STATUTS
+from ..models import db, Annonce, Utilisateur, CATEGORIES, ETATS, TYPES, STATUTS
 from .decorators import login_required, get_current_user
 
 bp = Blueprint("annonces", __name__)
