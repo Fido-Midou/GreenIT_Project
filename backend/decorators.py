@@ -1,7 +1,6 @@
 """Décorateurs pour protéger les routes nécessitant authentification ou droits admin."""
 from functools import wraps
 from flask import session, redirect, url_for, flash, abort
-from .models import Utilisateur
 
 
 def login_required(view):
@@ -22,6 +21,7 @@ def admin_required(view):
 
     @wraps(view)
     def wrapped(*args, **kwargs):
+        from .models import Utilisateur
         if "user_id" not in session:
             flash("Vous devez être connecté.", "error")
             return redirect(url_for("auth.login"))

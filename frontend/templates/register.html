@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Inscription — CampusGive{% endblock %}
+
+{% block content %}
+<h1>Créer un compte</h1>
+<p>Déjà inscrit&nbsp;? <a href="{{ url_for('auth.login') }}">Connecte-toi</a>.</p>
+
+<form action="{{ url_for('auth.register') }}" method="post" novalidate>
+  <div class="form-row">
+    <div class="field">
+      <label for="prenom">Prénom</label>
+      <input type="text" id="prenom" name="prenom" value="{{ form.prenom or '' }}" required autocomplete="given-name" maxlength="80">
+    </div>
+    <div class="field">
+      <label for="nom">Nom</label>
+      <input type="text" id="nom" name="nom" value="{{ form.nom or '' }}" required autocomplete="family-name" maxlength="80">
+    </div>
+  </div>
+
+  <div class="field">
+    <label for="email">Email</label>
+    <input type="email" id="email" name="email" value="{{ form.email or '' }}" required autocomplete="email" maxlength="120">
+  </div>
+
+  <div class="field">
+    <label for="campus">Campus</label>
+    <input type="text" id="campus" name="campus" value="{{ form.campus or '' }}" required maxlength="80" placeholder="EFREI Villejuif, Sorbonne…">
+  </div>
+
+  <div class="field">
+    <label for="password">Mot de passe</label>
+    <input type="password" id="password" name="password" required autocomplete="new-password" minlength="8">
+    <span class="field-help">Au moins 8 caractères.</span>
+  </div>
+
+  <div class="field">
+    <label for="password_confirm">Confirmation du mot de passe</label>
+    <input type="password" id="password_confirm" name="password_confirm" required autocomplete="new-password">
+  </div>
+
+  <button type="submit" class="btn">Créer le compte</button>
+</form>
+{% endblock %}

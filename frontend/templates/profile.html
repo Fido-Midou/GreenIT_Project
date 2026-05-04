@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}Mon profil — CampusGive{% endblock %}
+
+{% block content %}
+<h1>Mon profil</h1>
+
+<section>
+  <h2>Informations personnelles</h2>
+  <p>
+    <strong>{{ user.prenom }} {{ user.nom }}</strong><br>
+    {{ user.email }}<br>
+    Campus&nbsp;: {{ user.campus }}<br>
+    Inscrit le {{ user.date_inscription.strftime('%d/%m/%Y') }}
+  </p>
+  <p>
+    <a href="{{ url_for('auth_user.edit_profile') }}" class="btn btn-secondary btn-small">Modifier le profil</a>
+  </p>
+</section>
+
+<section>
+  <h2>Mes annonces</h2>
+  {% if annonces %}
+    <div class="annonce-list">
+      {% for a in annonces %}
+        <article class="annonce-card">
+          <h3><a href="{{ url_for('annonces.detail', annonce_id=a.id) }}">{{ a.titre }}</a></h3>
+          <div class="tag-row">
+            <span class="tag tag-{{ a.type_annonce }}">{{ 'Don' if a.type_annonce == 'don' else 'Échange' }}</span>
+            <span class="tag">{{ a.categorie|capitalize }}</span>
+            <span class="tag">{{ a.statut|capitalize }}</span>
+          </div>
+          <p class="meta">{{ a.date_publication.strftime('%d/%m/%Y') }}</p>
+          <div class="actions" style="justify-content: flex-start;">
+            <a href="{{ url_for('annonces.modifier', annonce_id=a.id) }}" class="btn btn-small btn-secondary">Modifier</a>
+            <form action="{{ url_for('annonces.supprimer', annonce_id=a.id) }}" method="post" class="inline-form" onsubmit="return confirm('Supprimer cette annonce ?');">
+              <button type="submit" class="btn btn-small btn-danger">Supprimer</button>
+            </form>
+          </div>
+        </article>
+      {% endfor %}
+    </div>
+    {% include "_pagination.html" %}
+  {% else %}
+    <p>Tu n'as pas encore déposé d'annonce.</p>
+    <p><a href="{{ url_for('annonces.creer') }}" class="btn">Déposer ma première annonce</a></p>
+  {% endif %}
+</section>
+
+<section class="danger-zone">
+  <h2>Supprimer mon compte</h2>
+  <p>Cette action est irréversible. Toutes tes annonces seront également supprimées.</p>
+  <form action="{{ url_for('auth_user.delete_account') }}" method="post" onsubmit="return confirm('Es-tu certain·e de vouloir supprimer définitivement ton compte ?');">
+    <button type="submit" class="btn btn-danger">Supprimer mon compte</button>
+  </form>
+</section>
+{% endblock %}

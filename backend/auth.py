@@ -118,4 +118,3 @@ def logout():
     session.clear()
     flash("Vous êtes déconnecté.", "success")
     return redirect(url_for("index"))
-# Module d'authentification CampusGive
