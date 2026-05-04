@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Modifier mon profil — CampusGive{% endblock %}
+
+{% block content %}
+<h1>Modifier mon profil</h1>
+
+<form action="{{ url_for('auth_user.edit_profile') }}" method="post" novalidate>
+  <div class="form-row">
+    <div class="field">
+      <label for="prenom">Prénom</label>
+      <input type="text" id="prenom" name="prenom" value="{{ user.prenom }}" required maxlength="80">
+    </div>
+    <div class="field">
+      <label for="nom">Nom</label>
+      <input type="text" id="nom" name="nom" value="{{ user.nom }}" required maxlength="80">
+    </div>
+  </div>
+
+  <div class="field">
+    <label for="campus">Campus</label>
+    <input type="text" id="campus" name="campus" value="{{ user.campus }}" required maxlength="80">
+  </div>
+
+  <h2>Changer le mot de passe</h2>
+  <p class="meta">Laisser vide pour ne pas modifier.</p>
+
+  <div class="field">
+    <label for="current_password">Mot de passe actuel</label>
+    <input type="password" id="current_password" name="current_password" autocomplete="current-password">
+  </div>
+
+  <div class="field">
+    <label for="new_password">Nouveau mot de passe</label>
+    <input type="password" id="new_password" name="new_password" autocomplete="new-password" minlength="8">
+    <span class="field-help">Au moins 8 caractères.</span>
+  </div>
+
+  <div class="actions" style="justify-content: flex-start;">
+    <button type="submit" class="btn">Enregistrer</button>
+    <a href="{{ url_for('auth_user.profile') }}" class="btn btn-secondary">Annuler</a>
+  </div>
+</form>
+{% endblock %}
