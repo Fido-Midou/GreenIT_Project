@@ -6,7 +6,7 @@ services:
     plan: free
     runtime:
       runtimeVersion: 3.11.9
-    buildCommand: pip install -r requirements.txt
+    buildCommand: bash build.sh
     startCommand: gunicorn app:app
     envVars:
       - key: FLASK_ENV

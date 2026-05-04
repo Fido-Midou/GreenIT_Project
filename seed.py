@@ -2,7 +2,7 @@
 
 Usage : python seed.py
 
-⚠ À exécuter une seule fois. Modifie les identifiants admin avant exécution !
+automatiquement lancé par build.sh (cas utilisation render.com)
 """
 from backend import create_app
 from backend.models import db, Utilisateur, Annonce
@@ -86,6 +86,13 @@ def run():
         # db.drop_all()
         # db.create_all()
 
+        # Vérification : si l'admin existe déjà, abandon du seed
+        admin_exists = Utilisateur.query.filter_by(email="admin@campusgive.fr").first()
+        if admin_exists:
+            print("Les données de seed existent déjà, abandon.")
+            print("  (Compte admin déjà présent)")
+            return
+
         # Crée les utilisateurs s'ils n'existent pas.
         users_by_email = {}
         for data in SAMPLE_USERS:
@@ -123,7 +130,7 @@ def run():
             print(f"+ Annonce créée : {data['titre']}")
 
         db.session.commit()
-        print("\n✓ Seed terminé.")
+        print("\nSeed terminé.")
         print("  Compte admin   : admin@campusgive.fr / AdminCampus2026!")
         print("  Compte démo 1  : alice.dupont@efrei.net / alice12345")
         print("  Compte démo 2  : bilal.martin@efrei.net / bilal12345")
