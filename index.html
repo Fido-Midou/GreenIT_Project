@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}CampusGive — donner et échanger entre étudiants{% endblock %}
+
+{% block content %}
+<section class="hero" aria-labelledby="hero-title">
+  <h1 id="hero-title">Donne ou échange entre étudiants</h1>
+  <p>
+    CampusGive est une plateforme sans transaction financière qui permet aux
+    étudiants d'un même campus de se transmettre des objets fonctionnels
+    plutôt que de les jeter ou d'en racheter neufs.
+  </p>
+  <div class="actions">
+    <a href="{{ url_for('annonces.liste') }}" class="btn">Voir les annonces</a>
+    {% if not current_user %}
+      <a href="{{ url_for('auth.register') }}" class="btn btn-secondary">Créer un compte</a>
+    {% else %}
+      <a href="{{ url_for('annonces.creer') }}" class="btn btn-secondary">Déposer une annonce</a>
+    {% endif %}
+  </div>
+</section>
+
+<section class="eco-block" aria-labelledby="eco-title">
+  <h2 id="eco-title">Nos engagements écologiques</h2>
+  <ul>
+    <li><strong>Sobriété fonctionnelle&nbsp;:</strong> seules les fonctionnalités utiles sont développées. Pas de messagerie interne, pas d'upload de photo en V1.</li>
+    <li><strong>Sobriété technique&nbsp;:</strong> aucun framework JavaScript, une seule feuille CSS, aucun script tiers (analytics, publicité, traceurs).</li>
+    <li><strong>Données minimales&nbsp;:</strong> deux entités seulement (Utilisateur et Annonce). Aucune donnée comportementale conservée.</li>
+    <li><strong>Cible technique&nbsp;:</strong> chaque page pèse moins de 200 Ko et charge en moins de 2 secondes, même sur connexion lente.</li>
+  </ul>
+</section>
+
+<section aria-labelledby="how-title">
+  <h2 id="how-title">Comment ça marche&nbsp;?</h2>
+  <p>
+    Inscris-toi avec ton email étudiant, dépose une annonce de don ou
+    d'échange en quelques secondes (titre, description, catégorie, état)
+    ou parcours les annonces des autres. Aucune transaction monétaire&nbsp;:
+    le geste reste un don ou un troc local entre étudiants.
+  </p>
+</section>
+{% endblock %}
