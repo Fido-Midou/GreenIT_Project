@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Utilisateurs — Administration{% endblock %}
+
+{% block content %}
+<p><a href="{{ url_for('admin.dashboard') }}">← Tableau de bord</a></p>
+<h1>Gestion des utilisateurs</h1>
+
+<div class="table-wrap">
+  <table class="data">
+    <thead>
+      <tr>
+        <th>Nom</th>
+        <th>Email</th>
+        <th>Campus</th>
+        <th>Rôle</th>
+        <th>Inscription</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for u in users %}
+        <tr>
+          <td>{{ u.prenom }} {{ u.nom }}</td>
+          <td>{{ u.email }}</td>
+          <td>{{ u.campus }}</td>
+          <td>{{ u.role }}</td>
+          <td>{{ u.date_inscription.strftime('%d/%m/%Y') }}</td>
+          <td>
+            <a href="{{ url_for('admin.edit_user', user_id=u.id) }}" class="btn btn-small btn-secondary">Modifier</a>
+            <form action="{{ url_for('admin.delete_user', user_id=u.id) }}" method="post" class="inline-form" onsubmit="return confirm('Supprimer définitivement {{ u.email }} et toutes ses annonces ?');">
+              <button type="submit" class="btn btn-small btn-danger">Supprimer</button>
+            </form>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% include "_pagination.html" %}
+{% endblock %}

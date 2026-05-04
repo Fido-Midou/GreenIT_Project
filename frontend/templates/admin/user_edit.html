@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Modifier {{ user.email }} — Administration{% endblock %}
+
+{% block content %}
+<p><a href="{{ url_for('admin.users_list') }}">← Liste des utilisateurs</a></p>
+<h1>Modifier l'utilisateur</h1>
+
+<form action="{{ url_for('admin.edit_user', user_id=user.id) }}" method="post" novalidate>
+  <div class="form-row">
+    <div class="field">
+      <label for="prenom">Prénom</label>
+      <input type="text" id="prenom" name="prenom" value="{{ user.prenom }}" required maxlength="80">
+    </div>
+    <div class="field">
+      <label for="nom">Nom</label>
+      <input type="text" id="nom" name="nom" value="{{ user.nom }}" required maxlength="80">
+    </div>
+  </div>
+
+  <div class="field">
+    <label for="email">Email (lecture seule)</label>
+    <input type="email" id="email" value="{{ user.email }}" disabled>
+  </div>
+
+  <div class="field">
+    <label for="campus">Campus</label>
+    <input type="text" id="campus" name="campus" value="{{ user.campus }}" required maxlength="80">
+  </div>
+
+  <div class="field">
+    <label for="role">Rôle</label>
+    <select id="role" name="role">
+      <option value="user" {% if user.role == 'user' %}selected{% endif %}>Utilisateur</option>
+      <option value="admin" {% if user.role == 'admin' %}selected{% endif %}>Administrateur</option>
+    </select>
+  </div>
+
+  <div class="actions" style="justify-content: flex-start;">
+    <button type="submit" class="btn">Enregistrer</button>
+    <a href="{{ url_for('admin.users_list') }}" class="btn btn-secondary">Annuler</a>
+  </div>
+</form>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Administration — CampusGive{% endblock %}
+
+{% block content %}
+<h1>Tableau de bord</h1>
+
+<div class="stats">
+  <div class="stat">
+    <div class="label">Utilisateurs</div>
+    <div class="value">{{ nb_users }}</div>
+  </div>
+  <div class="stat">
+    <div class="label">Annonces (total)</div>
+    <div class="value">{{ nb_annonces }}</div>
+  </div>
+  <div class="stat">
+    <div class="label">Annonces disponibles</div>
+    <div class="value">{{ nb_dispos }}</div>
+  </div>
+</div>
+
+<nav aria-label="Sections d'administration">
+  <h2>Gestion</h2>
+  <ul>
+    <li><a href="{{ url_for('admin.users_list') }}">Gérer les utilisateurs</a></li>
+    <li><a href="{{ url_for('admin.annonces_list') }}">Gérer les annonces</a></li>
+  </ul>
+</nav>
+{% endblock %}
