@@ -24,6 +24,23 @@
   <h2>Description</h2>
   <p>{{ annonce.description|replace('\n', '<br>')|safe }}</p>
 
+  {# Bouton de contact : visible UNIQUEMENT aux utilisateurs connectés
+     et différents de l'auteur. Choix Green IT : un simple mailto ouvre
+     le client mail natif, sans messagerie interne (B9 Won't Have V1). #}
+  {% if current_user and current_user.id != annonce.id_utilisateur and annonce.statut == 'disponible' %}
+    <h2>Intéressé·e ?</h2>
+    <p>
+      <a href="mailto:{{ annonce.auteur.email }}?subject=CampusGive%20-%20{{ annonce.titre|urlencode }}&body=Bonjour%20{{ annonce.auteur.prenom|urlencode }}%2C%0A%0AJe%20suis%20int%C3%A9ress%C3%A9%C2%B7e%20par%20ton%20annonce%20%C2%AB%20{{ annonce.titre|urlencode }}%20%C2%BB%20publi%C3%A9e%20sur%20CampusGive.%0A%0A"
+         class="btn">
+        Contacter {{ annonce.auteur.prenom }} par email
+      </a>
+    </p>
+    <p class="meta">
+      L'email s'ouvrira dans ta messagerie habituelle, avec un message pré-rempli
+      que tu peux compléter avant de l'envoyer.
+    </p>
+  {% endif %}
+
   {% if current_user and (current_user.id == annonce.id_utilisateur or current_user.is_admin) %}
     <div class="actions" style="justify-content: flex-start;">
       <a href="{{ url_for('annonces.modifier', annonce_id=annonce.id) }}" class="btn btn-secondary">Modifier</a>
@@ -31,6 +48,12 @@
         <button type="submit" class="btn btn-danger">Supprimer</button>
       </form>
     </div>
+  {% endif %}
+
+  {% if not current_user %}
+    <p class="meta">
+      <a href="{{ url_for('auth.login') }}">Connecte-toi</a> pour contacter le déposant.
+    </p>
   {% endif %}
 </article>
 {% endblock %}
