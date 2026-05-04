@@ -1,0 +1,43 @@
+# Variables d'environnement
+.env
+.env.local
+.env.*.local
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+.venv/
+*.egg-info/
+.pytest_cache/
+
+# Base de données locale
+*.db
+*.sqlite
+*.sqlite3
+instance/
+
+# IDE / OS
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Build
+build/
+dist/
+.coverage
+htmlcov/
+
+# Node (si jamais utilisé pour la minification)
+node_modules/
+package-lock.json
