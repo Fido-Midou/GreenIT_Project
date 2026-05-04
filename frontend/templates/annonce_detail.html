@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}{{ annonce.titre }} — CampusGive{% endblock %}
+{% block meta_description %}{{ annonce.titre }} — annonce de {{ 'don' if annonce.type_annonce == 'don' else 'échange' }} sur CampusGive.{% endblock %}
+
+{% block content %}
+<p><a href="{{ url_for('annonces.liste') }}">← Retour aux annonces</a></p>
+
+<article>
+  <h1>{{ annonce.titre }}</h1>
+
+  <div class="tag-row">
+    <span class="tag tag-{{ annonce.type_annonce }}">{{ 'Don' if annonce.type_annonce == 'don' else 'Échange' }}</span>
+    <span class="tag">{{ annonce.categorie|capitalize }}</span>
+    <span class="tag">État&nbsp;: {{ annonce.etat|replace('_', ' ') }}</span>
+    <span class="tag">Statut&nbsp;: {{ annonce.statut|capitalize }}</span>
+  </div>
+
+  <p class="meta">
+    Publié par <strong>{{ annonce.auteur.prenom }} {{ annonce.auteur.nom }}</strong>
+    — {{ annonce.auteur.campus }}
+    — {{ annonce.date_publication.strftime('%d/%m/%Y à %H:%M') }}
+  </p>
+
+  <h2>Description</h2>
+  <p>{{ annonce.description|replace('\n', '<br>')|safe }}</p>
+
+  {% if current_user and (current_user.id == annonce.id_utilisateur or current_user.is_admin) %}
+    <div class="actions" style="justify-content: flex-start;">
+      <a href="{{ url_for('annonces.modifier', annonce_id=annonce.id) }}" class="btn btn-secondary">Modifier</a>
+      <form action="{{ url_for('annonces.supprimer', annonce_id=annonce.id) }}" method="post" class="inline-form" onsubmit="return confirm('Supprimer définitivement cette annonce ?');">
+        <button type="submit" class="btn btn-danger">Supprimer</button>
+      </form>
+    </div>
+  {% endif %}
+</article>
+{% endblock %}
