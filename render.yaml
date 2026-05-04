@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: campusgive
+    env: python
+    region: oregon
+    plan: free
+    runtime:
+      runtimeVersion: 3.11.9
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    envVars:
+      - key: FLASK_ENV
+        value: production
+      - key: DATABASE_URL
+        scope: build
+      - key: SECRET_KEY
+        scope: build
