@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Annonces — Administration{% endblock %}
+
+{% block content %}
+<p><a href="{{ url_for('admin.dashboard') }}">← Tableau de bord</a></p>
+<h1>Gestion des annonces</h1>
+
+<div class="table-wrap">
+  <table class="data">
+    <thead>
+      <tr>
+        <th>Titre</th>
+        <th>Auteur</th>
+        <th>Catégorie</th>
+        <th>Type</th>
+        <th>Statut</th>
+        <th>Date</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for a in annonces %}
+        <tr>
+          <td><a href="{{ url_for('annonces.detail', annonce_id=a.id) }}">{{ a.titre }}</a></td>
+          <td>{{ a.auteur.prenom }} {{ a.auteur.nom }}</td>
+          <td>{{ a.categorie|capitalize }}</td>
+          <td>{{ 'Don' if a.type_annonce == 'don' else 'Échange' }}</td>
+          <td>{{ a.statut|capitalize }}</td>
+          <td>{{ a.date_publication.strftime('%d/%m/%Y') }}</td>
+          <td>
+            <a href="{{ url_for('annonces.modifier', annonce_id=a.id) }}" class="btn btn-small btn-secondary">Modifier</a>
+            <form action="{{ url_for('admin.delete_annonce', annonce_id=a.id) }}" method="post" class="inline-form" onsubmit="return confirm('Supprimer cette annonce ?');">
+              <button type="submit" class="btn btn-small btn-danger">Supprimer</button>
+            </form>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% include "_pagination.html" %}
+{% endblock %}

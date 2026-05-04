@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block title %}Page introuvable — CampusGive{% endblock %}
+{% block content %}
+<h1>404 — Page introuvable</h1>
+<p>La page que tu cherches n'existe pas ou a été déplacée.</p>
+<p><a href="{{ url_for('index') }}" class="btn">Retour à l'accueil</a></p>
+{% endblock %}
